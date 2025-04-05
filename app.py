@@ -34,7 +34,8 @@ if uploaded_file:
     question = st.text_input("Ask a question about the document:")
     if question:
         matched_chunks = search_similar_chunks(question, embed_model, index, chunks)
-        prompt = f"Context:\n{'\n'.join(matched_chunks)}\n\nUser Question: {question}\nAnswer:"
+        context = "\n".join(matched_chunks)
+        prompt = f"Context:\n{context}\n\nUser Question: {question}\nAnswer:"
         response = client.completions.create(model="gpt-3.5-turbo", prompt=prompt, max_tokens=200)
         st.write("**Answer:**", response.choices[0].text.strip())
 
